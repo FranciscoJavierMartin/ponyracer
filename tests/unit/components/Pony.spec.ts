@@ -5,8 +5,8 @@ import Pony from '@/components/Pony.vue';
 function ponyWrapper(ponyModel: PonyModel) {
   return mount(Pony, {
     props: {
-      ponyModel
-    }
+      ponyModel,
+    },
   });
 }
 
@@ -15,7 +15,7 @@ describe('Pony.vue', () => {
     const ponyModel: PonyModel = {
       id: 1,
       name: 'Fast Rainbow',
-      color: 'PURPLE'
+      color: 'PURPLE',
     };
 
     const wrapper = ponyWrapper(ponyModel);
@@ -36,7 +36,7 @@ describe('Pony.vue', () => {
     const ponyModel: PonyModel = {
       id: 1,
       name: 'Fast Rainbow',
-      color: 'PURPLE'
+      color: 'PURPLE',
     };
 
     const wrapper = ponyWrapper(ponyModel);

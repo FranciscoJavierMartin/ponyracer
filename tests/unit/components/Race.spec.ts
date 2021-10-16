@@ -13,15 +13,15 @@ describe('Race.vue', () => {
         { id: 2, name: 'Big Soda', color: 'ORANGE' },
         { id: 3, name: 'Gentle Bottle', color: 'PURPLE' },
         { id: 4, name: 'Superb Whiskey', color: 'GREEN' },
-        { id: 5, name: 'Fast Rainbow', color: 'BLUE' }
+        { id: 5, name: 'Fast Rainbow', color: 'BLUE' },
       ],
-      startInstant: '2020-02-18T08:02:00Z'
+      startInstant: '2020-02-18T08:02:00Z',
     } as RaceModel;
 
     const wrapper = mount(Race, {
       props: {
-        raceModel
-      }
+        raceModel,
+      },
     });
 
     // You need an h2 element for the race name
