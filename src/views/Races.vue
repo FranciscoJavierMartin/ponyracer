@@ -1,29 +1,19 @@
 <template>
-  <Race v-for="race in races" :key="race.id" :raceModel="race" />
+  <div>
+    <Race v-for="race in races" :key="race.id" :raceModel="race" />
+  </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
 import Race from '@/components/Race.vue';
 import { RaceModel } from '@/models/RaceModel';
 import { useRaceService } from '@/composables/RaceService';
 
-export default defineComponent({
-  components: {
-    Race,
-  },
-  setup() {
-    const raceService = useRaceService();
+const raceService = useRaceService();
+const races = ref<Array<RaceModel>>([]);
 
-    onMounted(async () => {
-      races.value = await raceService.list();
-    });
-
-    const races = ref<Array<RaceModel>>([]);
-
-    return {
-      races,
-    };
-  },
+onMounted(async () => {
+  races.value = await raceService.list();
 });
 </script>

@@ -20,21 +20,12 @@
   </nav>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
+<script setup lang="ts">
+import { Ref, ref } from 'vue';
 
-export default defineComponent({
-  setup() {
-    const navbarCollapsed = ref<boolean>(true);
+const navbarCollapsed: Ref<boolean> = ref<boolean>(true);
 
-    const toggleNavbar = () => {
-      navbarCollapsed.value = !navbarCollapsed.value;
-    };
-
-    return {
-      navbarCollapsed,
-      toggleNavbar,
-    };
-  },
-});
+function toggleNavbar(): void {
+  navbarCollapsed.value = !navbarCollapsed.value;
+}
 </script>

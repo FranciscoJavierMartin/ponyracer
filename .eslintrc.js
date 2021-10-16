@@ -22,6 +22,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'vue/attributes-order': 'off',
     'vue/attribute-hyphenation': ['error', 'never'],
+    'vue/component-api-style': ['error', ['script-setup']],
     'prettier/prettier': 'off',
   },
   overrides: [
