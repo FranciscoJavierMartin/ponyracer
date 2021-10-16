@@ -15,8 +15,8 @@ export default defineComponent({
   name: 'App',
   components: {
     Navbar,
-    Races
-  }
+    Races,
+  },
 });
 </script>
 

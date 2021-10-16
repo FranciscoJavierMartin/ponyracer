@@ -52,11 +52,5 @@
     "resultDir": "results",
     "resultJson": "jest-results.json",
     "coverageLink": "../coverage/lcov-report/index.html"
-  },
-  "prettier": {
-    "printWidth": 140,
-    "singleQuote": true,
-    "arrowParens": "avoid",
-    "trailingComma": "none"
   }
 }

@@ -5,7 +5,11 @@
       <button type="button" class="navbar-toggler" @click="toggleNavbar">
         <span class="navbar-toggler-icon" />
       </button>
-      <div id="navbar" class="navbar-collapse" :class="{ collapse: navbarCollapsed }">
+      <div
+        id="navbar"
+        class="navbar-collapse"
+        :class="{ collapse: navbarCollapsed }"
+      >
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
             <a class="nav-link">Races</a>
@@ -29,8 +33,8 @@ export default defineComponent({
 
     return {
       navbarCollapsed,
-      toggleNavbar
+      toggleNavbar,
     };
-  }
+  },
 });
 </script>

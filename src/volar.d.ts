@@ -1,5 +1,10 @@
 import type { UnwrapRef, VNode } from 'vue';
-import type { RouteLocationNormalized, RouterView, RouterLink, useLink } from 'vue-router';
+import type {
+  RouteLocationNormalized,
+  RouterView,
+  RouterLink,
+  useLink,
+} from 'vue-router';
 import type { Field, Form, useField, useForm } from 'vee-validate';
 
 declare module '@vue/runtime-core' {
