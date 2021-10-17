@@ -4,9 +4,12 @@
       <h1>Ponyracer <small>Always a pleasure to bet on ponies</small></h1>
     </div>
     <div>
-      <RouterLink to="/races" class="btn btn-large btn-primary"
-        >Races</RouterLink
-      >
+      <RouterLink to="/races" class="btn btn-large btn-primary me-2">
+        Races
+      </RouterLink>
+      <RouterLink to="/register" class="btn btn-large btn-primary">
+        Register
+      </RouterLink>
     </div>
   </div>
 </template>
