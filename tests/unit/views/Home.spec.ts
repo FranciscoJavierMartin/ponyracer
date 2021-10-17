@@ -26,16 +26,16 @@ describe('Home.vue', () => {
     expect(subtitle.text()).toBe('Always a pleasure to bet on ponies');
   });
 
-  test('display a link to go the races', () => {
+  test('display a link to go the login', () => {
     const wrapper = homeWrapper();
 
-    // You should have an `a` element to display the link to the races
+    // You should have an `a` element to display the link to the login page
     const link = wrapper.getComponent(RouterLinkStub);
     // The link should have a text
-    expect(link.text()).toBe('Races');
+    expect(link.text()).toBe('Login');
     // The URL of the link is not correct.
-    // Maybe you forgot to use `<RouterLink to="/races">` or `<RouterLink :to="{ name: 'races' }">`?
-    expect(link.props().to?.name || link.props().to).toContain('races');
+    // Maybe you forgot to use `<RouterLink to="/login">` or `<RouterLink :to="{ name: 'login' }">`?
+    expect(link.props().to?.name || link.props().to).toContain('login');
   });
 
   test('display a link to go the register page', () => {

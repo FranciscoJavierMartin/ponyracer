@@ -1,31 +1,27 @@
 <template>
   <div class="row">
     <div class="col-md-6 offset-md-3">
-      <h1>Sign up</h1>
+      <h1>Log in</h1>
       <Alert
-        v-if="registrationFailed"
+        v-if="authenticationFailed"
         variant="danger"
         dismissible
-        @dismissed="registrationFailed = false"
+        @dismissed="authenticationFailed = false"
       >
-        Try again with another login.
+        Nope, try again.
       </Alert>
-      <Form
-        @submit="register($event)"
-        :initialValues="initialValues"
-        v-slot="{ meta: formMeta }"
-      >
+      <Form @submit="authenticate($event)" v-slot="{ meta: formMeta }">
         <Field name="login" rules="required" v-slot="{ field, meta }">
           <div class="mb-3">
             <label
               for="login"
               class="form-label"
               :class="{ 'text-danger': meta.dirty && !meta.valid }"
-              >Login</label
             >
+              Login
+            </label>
             <input
               id="login"
-              name="login"
               class="form-control"
               :class="{ 'is-invalid': meta.dirty && !meta.valid }"
               v-bind="field"
@@ -39,9 +35,8 @@
               for="password"
               class="form-label"
               :class="{ 'text-danger': meta.dirty && !meta.valid }"
+              >Password</label
             >
-              Password
-            </label>
             <input
               id="password"
               type="password"
@@ -52,31 +47,12 @@
             <ErrorMessage name="password" class="invalid-feedback" />
           </div>
         </Field>
-        <Field name="birthYear" rules="required" v-slot="{ field, meta }">
-          <div class="mb-3">
-            <label
-              for="birth-year"
-              class="form-label"
-              :class="{ 'text-danger': meta.dirty && !meta.valid }"
-            >
-              Birth year
-            </label>
-            <input
-              id="birth-year"
-              type="number"
-              class="form-control"
-              :class="{ 'is-invalid': meta.dirty && !meta.valid }"
-              v-bind="field"
-            />
-            <ErrorMessage name="birthYear" class="invalid-feedback" />
-          </div>
-        </Field>
         <button
           class="btn btn-primary"
           type="submit"
           :disabled="!formMeta.valid"
         >
-          Let's go!
+          Log me in!
         </button>
       </Form>
     </div>
@@ -84,24 +60,25 @@
 </template>
 
 <script setup lang="ts">
-import { Ref, ref } from 'vue';
+import { ref, Ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import { useUserService } from '@/composables/UserService';
-import { UserModel } from '@/models/UserModel';
 import '@/forms';
 
-const initialValues = { birthYear: new Date().getFullYear() - 18 };
-const registrationFailed: Ref<boolean> = ref<boolean>(false);
-const userService = useUserService();
+const authenticationFailed: Ref<boolean> = ref<boolean>(false);
 const router = useRouter();
+const userService = useUserService();
 
-async function register(userModel: Record<string, unknown>): Promise<void> {
+async function authenticate(credentials: Record<string, unknown>) {
+  authenticationFailed.value = false;
   try {
-    await userService.register(userModel as unknown as UserModel);
+    await userService.authenticate(
+      credentials as { login: string; password: string }
+    );
     router.push({ name: 'home' });
-  } catch (e) {
-    registrationFailed.value = true;
+  } catch {
+    authenticationFailed.value = true;
   }
 }
 </script>

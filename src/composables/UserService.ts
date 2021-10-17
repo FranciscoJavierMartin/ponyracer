@@ -10,5 +10,15 @@ export function useUserService() {
       );
       return response.data;
     },
+    async authenticate(credentials: {
+      login: string;
+      password: string;
+    }): Promise<UserModel> {
+      const response = await axios.post<UserModel>(
+        `${process.env.VUE_APP_SERVER_URL}users/authentication`,
+        credentials
+      );
+      return response.data;
+    },
   };
 }
