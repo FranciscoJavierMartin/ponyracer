@@ -3,19 +3,21 @@
     <div>
       <h1>Ponyracer <small>Always a pleasure to bet on ponies</small></h1>
     </div>
-    <div v-if="!userModel">
-      <RouterLink to="/login" class="btn btn-large btn-primary me-2">
-        Login
-      </RouterLink>
-      <RouterLink to="/register" class="btn btn-large btn-primary">
-        Register
-      </RouterLink>
-    </div>
-    <div v-else>
-      <RouterLink to="/races" class="btn btn-large btn-primary"
-        >Races</RouterLink
-      >
-    </div>
+    <Transition name="fade" mode="out-in">
+      <div v-if="!userModel">
+        <RouterLink to="/login" class="btn btn-large btn-primary me-2">
+          Login
+        </RouterLink>
+        <RouterLink to="/register" class="btn btn-large btn-primary">
+          Register
+        </RouterLink>
+      </div>
+      <div v-else>
+        <RouterLink to="/races" class="btn btn-large btn-primary"
+          >Races</RouterLink
+        >
+      </div>
+    </Transition>
   </div>
 </template>
 
@@ -24,3 +26,15 @@ import { useUserService } from '@/composables/UserService';
 
 const { userModel } = useUserService();
 </script>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

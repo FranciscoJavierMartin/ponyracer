@@ -5,10 +5,16 @@
       <button type="button" class="navbar-toggler" @click="toggleNavbar()">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div id="navbar" class="navbar-collapse" :class="{ collapse: navbarCollapsed }">
+      <div
+        id="navbar"
+        class="navbar-collapse"
+        :class="{ collapse: navbarCollapsed }"
+      >
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
-            <RouterLink to="/races" v-if="userModel" class="nav-link">Races</RouterLink>
+            <RouterLink to="/races" v-if="userModel" class="nav-link"
+              >Races</RouterLink
+            >
           </li>
         </ul>
         <ul class="navbar-nav" v-if="userModel">
@@ -20,7 +26,12 @@
             </span>
           </li>
           <li class="nav-item">
-            <a id="logout-link" @click="logout()" class="nav-link" role="button">
+            <a
+              id="logout-link"
+              @click="logout()"
+              class="nav-link"
+              role="button"
+            >
               <span class="fa fa-power-off"></span>
             </a>
           </li>
