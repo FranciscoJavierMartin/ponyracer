@@ -1,9 +1,30 @@
 /* eslint-disable vue/one-component-per-file */
 import { flushPromises, mount } from '@vue/test-utils';
 import { defineComponent } from 'vue';
+import { createRouterMock, injectRouterMock } from 'vue-router-mock';
 import App from '@/App.vue';
 import Navbar from '@/components/Navbar.vue';
 import Alert from '@/components/Alert.vue';
+
+const Hello = defineComponent({
+  async setup() {
+    return {};
+  },
+  template: 'Hello'
+});
+const Error = defineComponent({
+  async setup() {
+    await Promise.reject();
+  },
+  template: 'Error'
+});
+const mockRouter = createRouterMock({
+  routes: [
+    { path: '/', component: Hello },
+    { path: '/error', component: Error }
+  ]
+});
+injectRouterMock(mockRouter);
 
 function appWrapper(stubs = {}) {
   return mount(App, {
@@ -17,11 +38,6 @@ function appWrapper(stubs = {}) {
 }
 
 describe('App.vue', () => {
-  test('renders a title', () => {
-    const wrapper = appWrapper();
-    expect(wrapper.get('h1').text()).toBe('Ponyracer');
-  });
-
   test('renders the navbar', () => {
     const wrapper = appWrapper();
     const navbar = wrapper.findComponent(Navbar);
@@ -29,15 +45,11 @@ describe('App.vue', () => {
     expect(navbar.exists()).toBe(true);
   });
 
-  test('renders the races list inside a Suspense component', async () => {
+  test('renders the router view inside a Suspense component', async () => {
     const wrapper = appWrapper({
-      Races: defineComponent({
-        async setup() {
-          return { result: 'Hello' };
-        },
-        template: '<div>{{ result }}</div>'
-      })
+      RouterView: false
     });
+    await mockRouter.push('/');
     expect(wrapper.html()).toContain('Loading...');
 
     await flushPromises();
@@ -46,7 +58,7 @@ describe('App.vue', () => {
     expect(wrapper.html()).toContain('Hello');
   });
 
-  test('renders an error if races list does not load', async () => {
+  test('renders an error if router view does not load', async () => {
     const wrapper = appWrapper({
       Alert: defineComponent({
         // eslint-disable-next-line vue/require-prop-types
@@ -54,13 +66,9 @@ describe('App.vue', () => {
         emits: ['dismissed'],
         template: 'Alert displayed'
       }),
-      Races: defineComponent({
-        async setup() {
-          await Promise.reject();
-        },
-        template: '<div>Error</div>'
-      })
+      RouterView: false
     });
+    await mockRouter.push('/error');
     expect(wrapper.html()).toContain('Loading...');
 
     await flushPromises();
