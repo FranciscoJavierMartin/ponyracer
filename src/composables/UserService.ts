@@ -1,8 +1,15 @@
 import { ref, Ref } from 'vue';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { UserModel } from '@/models/UserModel';
 
 const userModel: Ref<UserModel | null> = ref<UserModel | null>(null);
+
+axios.interceptors.request.use((config: AxiosRequestConfig) => {
+  if (userModel.value) {
+    config.headers!.Authorization = `Bearer ${userModel.value?.token}`;
+  }
+  return config;
+});
 
 export function retrieveUser(): UserModel | null {
   const userAsString = window.localStorage.getItem('rememberMe');

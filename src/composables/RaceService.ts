@@ -12,5 +12,23 @@ export function useRaceService() {
 
       return response.data;
     },
+    async bet(raceId: number, ponyId: number): Promise<RaceModel> {
+      const response = await axios.post<RaceModel>(
+        `${process.env.VUE_APP_SERVER_URL}races/${raceId}/bets`,
+        { ponyId }
+      );
+      return response.data;
+    },
+    async get(raceId: number): Promise<RaceModel> {
+      const response = await axios.get<RaceModel>(
+        `${process.env.VUE_APP_SERVER_URL}races/${raceId}`
+      );
+      return response.data;
+    },
+    async cancelBet(raceId: number): Promise<void> {
+      await axios.delete(
+        `${process.env.VUE_APP_SERVER_URL}races/${raceId}/bets`
+      );
+    },
   };
 }

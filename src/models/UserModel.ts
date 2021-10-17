@@ -3,4 +3,5 @@ export interface UserModel {
   password: string;
   birthYear: number;
   money?: number;
+  token?: string;
 }

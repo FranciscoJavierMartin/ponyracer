@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosInterceptorManager, AxiosResponse, AxiosRequestConfig } from 'axios';
 import { useUserService, retrieveUser } from '@/composables/UserService';
 import { UserModel } from '@/models/UserModel';
 
@@ -80,5 +80,27 @@ describe('useUserService', () => {
 
     expect(userService.userModel.value).toBeNull();
     expect(Storage.prototype.removeItem).toHaveBeenCalledWith('rememberMe');
+  });
+
+  test('should register an axios interceptor to handle the Authorization header', () => {
+    const userService = useUserService();
+    type RequestInterceptor = AxiosInterceptorManager<AxiosRequestConfig> & {
+      handlers: Array<{ fulfilled: (config: AxiosRequestConfig) => AxiosRequestConfig }>;
+    };
+    const interceptors = axios.interceptors.request as RequestInterceptor;
+
+    // You must register an interceptor in the constructor with `axios.interceptors.request.use()`
+    expect(interceptors.handlers).toHaveLength(1);
+
+    const interceptor = interceptors.handlers[0];
+    const config = { headers: {} };
+
+    userService.userModel.value = null;
+    // The interceptor should not add an `Authorization` header if there is no user logged in
+    expect(interceptor.fulfilled(config).headers).toEqual({});
+
+    userService.userModel.value = userModel;
+    // The interceptor should add an `Authorization` header with the value `Bearer ${token}`
+    expect(interceptor.fulfilled(config).headers).toEqual({ Authorization: `Bearer ${userModel.token}` });
   });
 });

@@ -3,6 +3,7 @@ import Home from '@/views/Home.vue';
 import Races from '@/views/Races.vue';
 import Register from '@/views/Register.vue';
 import Login from '@/views/Login.vue';
+import Bet from '@/views/Bet.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -26,6 +27,11 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: Login,
+    },
+    {
+      path: '/races/:raceId',
+      name: 'bet',
+      component: Bet,
     },
   ],
 });

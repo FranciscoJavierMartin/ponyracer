@@ -1,6 +1,12 @@
 <template>
-  <div>
-    <Race v-for="race in races" :key="race.id" :raceModel="race" />
+  <div v-for="race in races" :key="race.id">
+    <Race :raceModel="race" />
+    <RouterLink
+      :to="{ name: 'bet', params: { raceId: race.id } }"
+      class="btn btn-primary"
+    >
+      Bet on {{ race.name }}
+    </RouterLink>
   </div>
 </template>
 
