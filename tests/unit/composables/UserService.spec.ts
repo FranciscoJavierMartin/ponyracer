@@ -5,7 +5,8 @@ import { UserModel } from '@/models/UserModel';
 const userModel: UserModel = {
   birthYear: 1986,
   login: 'cedric',
-  password: ''
+  password: '',
+  money: 1000
 };
 
 describe('useUserService', () => {
@@ -27,7 +28,7 @@ describe('useUserService', () => {
     expect(userReceived).toBe(userModel);
   });
 
-  test('should authenticate a user', async () => {
+  test('should authenticate a user and store the user returned', async () => {
     jest.spyOn(axios, 'post').mockResolvedValue({ data: userModel } as AxiosResponse<UserModel>);
 
     const formValues = {
@@ -42,5 +43,7 @@ describe('useUserService', () => {
     expect(axios.post).toHaveBeenCalledWith('https://ponyracer.ninja-squad.com/api/users/authentication', formValues);
     // It should return a user for the `authenticate` function
     expect(userReceived).toBe(userModel);
+    // It should store the user in the `userModel` property
+    expect(userService.userModel.value).toEqual(userModel);
   });
 });

@@ -3,7 +3,7 @@
     <div>
       <h1>Ponyracer <small>Always a pleasure to bet on ponies</small></h1>
     </div>
-    <div>
+    <div v-if="!userModel">
       <RouterLink to="/login" class="btn btn-large btn-primary me-2">
         Login
       </RouterLink>
@@ -11,5 +11,16 @@
         Register
       </RouterLink>
     </div>
+    <div v-else>
+      <RouterLink to="/races" class="btn btn-large btn-primary"
+        >Races</RouterLink
+      >
+    </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { useUserService } from '@/composables/UserService';
+
+const { userModel } = useUserService();
+</script>
