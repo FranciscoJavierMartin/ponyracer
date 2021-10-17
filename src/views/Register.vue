@@ -15,7 +15,7 @@
         :initialValues="initialValues"
         v-slot="{ meta: formMeta }"
       >
-        <Field name="login" rules="required" v-slot="{ field, meta }">
+        <Field name="login" rules="required|min:3" v-slot="{ field, meta }">
           <div class="mb-3">
             <label
               for="login"
@@ -52,7 +52,36 @@
             <ErrorMessage name="password" class="invalid-feedback" />
           </div>
         </Field>
-        <Field name="birthYear" rules="required" v-slot="{ field, meta }">
+        <Field
+          name="confirmPassword"
+          rules="required|confirmed:@password"
+          label="password confirmation"
+          v-slot="{ field, meta }"
+        >
+          <div class="mb-3">
+            <label
+              for="confirm-password"
+              class="form-label"
+              :class="{ 'text-danger': meta.dirty && !meta.valid }"
+            >
+              Password confirmation
+            </label>
+            <input
+              id="confirm-password"
+              type="password"
+              class="form-control"
+              :class="{ 'is-invalid': meta.dirty && !meta.valid }"
+              v-bind="field"
+            />
+            <ErrorMessage name="confirmPassword" class="invalid-feedback" />
+          </div>
+        </Field>
+        <Field
+          name="birthYear"
+          rules="required|min_value:1900|isOldEnough"
+          label="birth year"
+          v-slot="{ field, meta }"
+        >
           <div class="mb-3">
             <label
               for="birth-year"
