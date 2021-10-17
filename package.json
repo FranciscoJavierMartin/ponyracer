@@ -11,7 +11,7 @@
     "vue-ninja": "vue-ninja",
     "eslint": "eslint",
     "template:check": "vue-tsc --noEmit --target es2017",
-    "format": "prettier --write \"{src,tests}/**/*.+(vue|ts|js|json|html|css)\"",
+    "format": "prettier --write \"src/**/*.+(vue|ts|js|json|html|css)\"",
     "postinstall": "npm run format"
   },
   "dependencies": {
