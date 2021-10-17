@@ -1,16 +1,20 @@
 import { mount, RouterLinkStub } from '@vue/test-utils';
 import { nextTick, ref } from 'vue';
+import { createRouterMock, getRouter, injectRouterMock } from 'vue-router-mock';
 import Navbar from '@/components/Navbar.vue';
 import { UserModel } from '@/models/UserModel';
 
 const mockUserService = {
-  userModel: ref<UserModel | null>(null)
+  userModel: ref<UserModel | null>(null),
+  logoutAndForget: jest.fn()
 };
 jest.mock('@/composables/UserService', () => ({
   useUserService: () => mockUserService
 }));
+const router = createRouterMock();
 
 function navbarWrapper() {
+  injectRouterMock(router);
   return mount(Navbar, {
     global: {
       stubs: {
@@ -103,5 +107,39 @@ describe('Navbar.vue', () => {
 
     // You should display the user's score in a `span` element
     expect(info.text()).toContain('300');
+  });
+
+  test('should logout the user', async () => {
+    const wrapper = navbarWrapper();
+    const mockRouter = getRouter();
+
+    // if the user is not logged in
+    mockUserService.userModel.value = null;
+    await nextTick();
+
+    // You should not have a link to logout the user if he/she is not logged in
+    expect(wrapper.find('#logout-link').exists()).toBe(false);
+
+    // if the user is logged in
+    mockUserService.userModel.value = {
+      login: 'cedric',
+      money: 200,
+      birthYear: 1986,
+      password: ''
+    } as UserModel;
+    await nextTick();
+
+    // You should have an `a` link to logout the user
+    const link = wrapper.get('a#logout-link.nav-link');
+    // You should display the logout icon in the link
+    expect(link.find('span.fa.fa-power-off').exists()).toBe(true);
+
+    // click on the logout link
+    link.trigger('click');
+
+    // should call the `logoutAndForget` function from `useUserService`
+    expect(mockUserService.logoutAndForget).toHaveBeenCalled();
+    // and redirect to the home page
+    expect(mockRouter.push).toHaveBeenCalled();
   });
 });

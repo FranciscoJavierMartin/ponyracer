@@ -4,6 +4,16 @@ import { UserModel } from '@/models/UserModel';
 
 const userModel: Ref<UserModel | null> = ref<UserModel | null>(null);
 
+export function retrieveUser(): UserModel | null {
+  const userAsString = window.localStorage.getItem('rememberMe');
+  return userAsString ? JSON.parse(userAsString) : null;
+}
+
+function storeLoggedInUser(user: UserModel): void {
+  userModel.value = user;
+  window.localStorage.setItem('rememberMe', JSON.stringify(user));
+}
+
 export function useUserService() {
   return {
     userModel,
@@ -12,7 +22,9 @@ export function useUserService() {
         `${process.env.VUE_APP_SERVER_URL}users`,
         user
       );
-      return response.data;
+      const userFromServer = response.data;
+      storeLoggedInUser(userFromServer);
+      return userFromServer;
     },
     async authenticate(credentials: {
       login: string;
@@ -22,8 +34,13 @@ export function useUserService() {
         `${process.env.VUE_APP_SERVER_URL}users/authentication`,
         credentials
       );
-      userModel.value = response.data;
-      return response.data;
+      const user = response.data;
+      storeLoggedInUser(user);
+      return user;
+    },
+    logoutAndForget(): void {
+      userModel.value = null;
+      window.localStorage.removeItem('rememberMe');
     },
   };
 }
