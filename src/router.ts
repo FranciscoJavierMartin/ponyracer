@@ -4,6 +4,7 @@ import Races from '@/views/Races.vue';
 import Register from '@/views/Register.vue';
 import Login from '@/views/Login.vue';
 import Bet from '@/views/Bet.vue';
+import Live from '@/views/Live.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -32,6 +33,11 @@ const router = createRouter({
       path: '/races/:raceId',
       name: 'bet',
       component: Bet,
+    },
+    {
+      path: '/races/:raceId/live',
+      name: 'live',
+      component: Live,
     },
   ],
 });

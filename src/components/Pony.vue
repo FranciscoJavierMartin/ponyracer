@@ -9,12 +9,15 @@
 import { computed, ComputedRef, defineProps, defineEmits } from 'vue';
 import { PonyModel } from '@/models/PonyModel';
 
-const props: Readonly<{ ponyModel: PonyModel }> =
-  defineProps<{ ponyModel: PonyModel }>();
+const props: Readonly<{ ponyModel: PonyModel; isRunning?: boolean }> =
+  defineProps<{ ponyModel: PonyModel; isRunning?: boolean }>();
 const emit = defineEmits<{ (e: 'ponySelected'): void }>();
 
 const ponyImageUrl: ComputedRef<string> = computed<string>(
-  () => `/images/pony-${props.ponyModel.color.toLowerCase()}.gif`
+  () =>
+    `/images/pony-${props.ponyModel.color.toLowerCase()}${
+      props.isRunning ? '-running' : ''
+    }.gif`
 );
 
 function clicked(): void {

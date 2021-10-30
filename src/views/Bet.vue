@@ -1,6 +1,12 @@
 <template>
   <h1>{{ raceModel.name }}</h1>
   <p>{{ startInstant }}</p>
+  <RouterLink
+    :to="{ name: 'live', params: { raceId: raceModel.id } }"
+    class="btn btn-large btn-primary"
+  >
+    Watch live!
+  </RouterLink>
   <Alert
     v-if="betFailed"
     variant="danger"
